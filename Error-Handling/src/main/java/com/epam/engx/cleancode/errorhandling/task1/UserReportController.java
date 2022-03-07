@@ -1,5 +1,9 @@
 package com.epam.engx.cleancode.errorhandling.task1;
 
+import com.epam.engx.cleancode.errorhandling.task1.thirdpartyjar.Exceptions.EmptyOrdersException;
+import com.epam.engx.cleancode.errorhandling.task1.thirdpartyjar.Exceptions.InvalidOrderAmountException;
+import com.epam.engx.cleancode.errorhandling.task1.thirdpartyjar.Exceptions.InvalidUserException;
+import com.epam.engx.cleancode.errorhandling.task1.thirdpartyjar.Exceptions.TechnicalErrorException;
 import com.epam.engx.cleancode.errorhandling.task1.thirdpartyjar.Model;
 
 public class UserReportController {
@@ -7,30 +11,33 @@ public class UserReportController {
     private UserReportBuilder userReportBuilder;
 
     public String getUserTotalOrderAmountView(String userId, Model model){
+        try {
         String totalMessage = getUserTotalMessage(userId);
-        if (totalMessage == null)
-            return "technicalError";
         model.addAttribute("userTotalMessage", totalMessage);
-        return "userTotal";
+        return "userTotal";}
+        catch(TechnicalErrorException e){
+            return "technicalError";
+        }
     }
 
     private String getUserTotalMessage(String userId) {
-
+        try {
         Double amount = userReportBuilder.getUserTotalOrderAmount(userId);
-
-        if (amount == null)
-            return null;
-
-        if (amount == -1)
-            return "WARNING: User ID doesn't exist.";
-        if (amount == -2)
-            return "WARNING: User have no submitted orders.";
-        if (amount == -3)
-            return "ERROR: Wrong order amount.";
-
         return "User Total: " + amount + "$";
+        }
+        catch(TechnicalErrorException e){
+            return "technicalError";
+        }
+        catch (InvalidUserException e) {
+            return  "WARNING: User ID doesn't exist.";
+        }
+        catch(EmptyOrdersException e) {
+            return "WARNING: User have no submitted orders.";
+        }
+        catch (InvalidOrderAmountException e) {
+                return "ERROR: Wrong order amount.";
+        }
     }
-
 
     public UserReportBuilder getUserReportBuilder() {
         return userReportBuilder;

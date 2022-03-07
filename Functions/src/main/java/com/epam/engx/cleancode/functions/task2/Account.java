@@ -14,26 +14,24 @@ public abstract class Account implements User {
 
     public Level getActivityLevel() {
         validateAccountForLevel();
-
-        int reviewAnswers = 0;
-        for (Review r : getAllReviews())
-            reviewAnswers += r.getAnswers().size();
-
-        return getLevelByReviews(reviewAnswers);
-
+        return getLevelByReviews(getReviewAnswers());
     }
 
     private void validateAccountForLevel() {
         if (!isRegistered() || getVisitNumber() <= 0)
             throw new NotActivUserException();
     }
-
+    private int getReviewAnswers() {
+        int reviewAnswers = 0;
+        for (Review review : getAllReviews())
+            reviewAnswers += review.getAnswers().size();
+        return reviewAnswers;
+    }
     private Level getLevelByReviews(int reviewAnswers) {
         for (Integer threshold : levelMap.keySet()) {
             if (reviewAnswers >= threshold)
                 return levelMap.get(threshold);
         }
-
         return Level.defaultLevel();
     }
 

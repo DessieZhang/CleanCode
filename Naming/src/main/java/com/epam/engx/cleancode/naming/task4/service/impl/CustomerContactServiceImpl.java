@@ -9,11 +9,11 @@ public class CustomerContactServiceImpl implements CustomerContactService {
 
     private CustomerContactDAO customerContactDAO;
 
-    public CustomerContact findCustomerContactDetailsByCustomerId(Long customerId) {
+    public CustomerContact findContactByCustomerId(Long customerId) {
         return customerContactDAO.findById(customerId);
     }
 
-    public void updateCustomerContactDetails(CustomerContact customerContactDetails) {
-        customerContactDAO.update(customerContactDetails);
+    public void updateContact(CustomerContact customerContact) {
+        customerContactDAO.update(customerContact);
     }
 }

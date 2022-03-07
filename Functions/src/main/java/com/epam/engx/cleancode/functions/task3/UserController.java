@@ -7,15 +7,15 @@ public abstract class UserController implements Controller {
 
     private UserAuthenticator userAuthenticator;
 
+    public void setUserAuthenticator(UserAuthenticator userAuthenticator) {
+        this.userAuthenticator = userAuthenticator;
+    }
+
     public void authenticateUser(String userName, String password) {
         User user = userAuthenticator.login(userName, password);
         if (user == null)
             generateFailLoginResponse();
         else
             generateSuccessLoginResponse(userName);
-    }
-
-    public void setUserAuthenticator(UserAuthenticator userAuthenticator) {
-        this.userAuthenticator = userAuthenticator;
     }
 }

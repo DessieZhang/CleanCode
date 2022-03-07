@@ -11,21 +11,18 @@ import static com.epam.engx.cleancode.functions.task1.thirdpartyjar.CheckStatus.
 public class RegisterAccountAction {
 
 
+    private static final int MIN_LENGTH_OF_NAME = 5;
+    private static final int MIN_LENGTH_OF_PASSWORD = 8;
     private PasswordChecker passwordChecker;
     private AccountManager accountManager;
 
     public void register(Account account) {
-        if (account.getName().length() <= 5){
-            throw new WrongAccountNameException();
-        }
-        String password = account.getPassword();
-        if (password.length() <= 8) {
-            throw new WrongPasswordException();
-        }
-        if (passwordChecker.validate(password) != OK) {
-            throw new WrongPasswordException();
-        }
+        validateName(account);
+        validatePassword(account);
+        createAccount(account);
+    }
 
+    private void createAccount(Account account) {
         account.setCreatedDate(new Date());
         List<Address> addresses = new ArrayList<Address>();
         addresses.add(account.getHomeAddress());
@@ -35,6 +32,22 @@ public class RegisterAccountAction {
         accountManager.createNewAccount(account);
     }
 
+    private void validateName(Account account) {
+        if (account.getName().length() <= MIN_LENGTH_OF_NAME){
+            throw new WrongAccountNameException();
+        }
+    }
+
+    private void validatePassword(Account account) {
+        String password = account.getPassword();
+
+        if (password.length() <= MIN_LENGTH_OF_PASSWORD) {
+            throw new WrongPasswordException();
+        }
+        if (passwordChecker.validate(password) != OK) {
+            throw new WrongPasswordException();
+        }
+    }
 
     public void setAccountManager(AccountManager accountManager) {
         this.accountManager = accountManager;

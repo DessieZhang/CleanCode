@@ -13,7 +13,7 @@ public abstract class UserAuthenticator implements UserService {
     }
 
     private User loginUser(User user, String password) {
-        if (isPasswordCorrect(user, password)) {
+        if(isPasswordCorrect(user, password)){
             sessionManager.setCurrentUser(user);
             return user;
         }

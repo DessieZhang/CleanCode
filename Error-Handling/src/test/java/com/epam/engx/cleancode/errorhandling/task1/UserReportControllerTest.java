@@ -1,6 +1,7 @@
 package com.epam.engx.cleancode.errorhandling.task1;
 
 import com.epam.engx.cleancode.errorhandling.task1.stubs.*;
+import com.epam.engx.cleancode.errorhandling.task1.thirdpartyjar.Exceptions.TechnicalErrorException;
 import com.epam.engx.cleancode.errorhandling.task1.thirdpartyjar.Model;
 import com.epam.engx.cleancode.errorhandling.task1.thirdpartyjar.Order;
 import com.epam.engx.cleancode.errorhandling.task1.thirdpartyjar.User;
